@@ -178,7 +178,7 @@ class _register_user_view extends State<RegisterUserView> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(" have an account? ", style: TextStyle(color: Colors.grey)),
+                                  const Text("Already have an account? ", style: TextStyle(color: Colors.grey)),
                                   GestureDetector(
                                     onTap: () => Navigator.pushNamed(context, '/login'),
                                     child: Text(

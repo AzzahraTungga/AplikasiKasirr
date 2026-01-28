@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dashboard.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
-
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -16,131 +16,100 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Mengganti background Scaffold agar card terlihat lebih kontras
-      backgroundColor: Colors.blue[50],
-      appBar: AppBar(
-        title: const Text("Login"),
-        // Mengubah warna AppBar menjadi Biru
-        backgroundColor: Colors.blue[700],
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
-          padding: const EdgeInsets.all(25),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20), // Border lebih melengkung agar modern
-            boxShadow: [
-              BoxShadow(
-                color: Colors.blue.withOpacity(0.1),
-                spreadRadius: 5,
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.blue.shade900, Colors.blue.shade400, Colors.blue.shade50],
           ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  const Text("HI NIGHT READERS",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 38, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 2.5),
+                  ),
+                  const SizedBox(height: 40),
+                  _buildCardForm(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardForm() {
+    return Container(
+      decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 25, spreadRadius: 5)]),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 35),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                // Icon tambahan agar nuansa biru lebih terasa
-                const Icon(Icons.lock_person_rounded, size: 80, color: Colors.blue),
-                const SizedBox(height: 10),
-                const Text(
-                  "Selamat Datang",
-                  style: TextStyle(
-                    fontSize: 24, 
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey, // Warna teks lebih soft
-                  ),
-                ),
+                Text("Login to Account", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.blue.shade900)),
                 const SizedBox(height: 30),
-                
-                // Input Email
-                TextFormField(
-                  controller: email,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    prefixIcon: const Icon(Icons.email, color: Colors.blue),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.blue, width: 2),
+                _inputField(email, "Email Address", Icons.email_outlined, false),
+                const SizedBox(height: 18),
+                _inputField(password, "Password", Icons.lock_outline, showPass, isPass: true),
+                const SizedBox(height: 35),
+                _buildButton(),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? "),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/register'),
+                      child: Text("Register", style: TextStyle(color: Colors.blue.shade800, fontWeight: FontWeight.bold)),
                     ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Email harus diisi';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 15),
-                
-                // Input Password
-                TextFormField(
-                  controller: password,
-                  obscureText: showPass,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    prefixIcon: const Icon(Icons.lock, color: Colors.blue),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          showPass = !showPass;
-                        });
-                      },
-                      icon: Icon(
-                        showPass ? Icons.visibility : Icons.visibility_off,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.blue, width: 2),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Password harus diisi';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 30),
-                
-                // Tombol Login Biru
-                SizedBox(
-                  width: double.infinity,
-                  height: 55, // Sedikit lebih tinggi agar nyaman ditekan
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        Navigator.pushReplacementNamed(context, '/dashboard');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[700],
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 2,
-                    ),
-                    child: const Text(
-                      "LOGIN",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  ],
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _inputField(TextEditingController ctrl, String label, IconData icon, bool obscure, {bool isPass = false}) {
+    return TextFormField(
+      controller: ctrl,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: Colors.blue.shade700),
+        suffixIcon: isPass ? IconButton(icon: Icon(obscure ? Icons.visibility_off : Icons.visibility), onPressed: () => setState(() => showPass = !showPass)) : null,
+        filled: true,
+        fillColor: Colors.blue.shade50.withOpacity(0.3),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+      ),
+      validator: (v) => (v == null || v.isEmpty) ? 'Field required' : null,
+    );
+  }
+
+  Widget _buildButton() {
+    return Container(
+      width: double.infinity, height: 55,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), gradient: LinearGradient(colors: [Colors.blue.shade700, Colors.blue.shade900])),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
+        onPressed: () {
+          if (formKey.currentState!.validate()) Navigator.pushReplacementNamed(context, '/dashboard');
+        },
+        child: const Text("LOGIN", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
   }
