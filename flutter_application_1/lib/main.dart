@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/register_user_view.dart';
+import 'views/RegisterUserView.dart';
 import 'views/dashboard.dart' as dashboard_view;
 import 'views/loginViews.dart' hide DashboardView;
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => const register_user_view(),
+        '/': (context) => const RegisterUserView(),
         '/login': (context) => const LoginView(),
         '/dashboard': (context) => const dashboard_view.DashboardView(),
       }, 
