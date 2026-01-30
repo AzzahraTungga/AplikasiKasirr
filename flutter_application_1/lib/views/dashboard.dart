@@ -32,68 +32,186 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Menggunakan background abu-abu sangat muda agar elemen biru lebih "pop"
-      backgroundColor: Colors.blueGrey[50], 
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text(
-          "Dashboard",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: Colors.blue[700], // Biru yang lebih tegas
+        title: const Text("Dashboard"),
+        elevation: 1,
+        backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.popAndPushNamed(context, '/login');
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
       ),
-      body: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Icon User sebagai pemanis
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.blue[100],
-              child: Icon(Icons.person, size: 50, color: Colors.blue[800]),
+            // Kartu profil
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.blue[100],
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                        color: Colors.blue[800],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Halo,",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            nama ?? 'User',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              role ?? 'Role',
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              "Selamat Datang,",
-              style: TextStyle(fontSize: 18, color: Colors.blueGrey[600]),
-            ),
-            Text(
-              "$nama".toUpperCase(),
+            
+            const SizedBox(height: 25),
+            
+            // Quick menu
+            const Text(
+              "Menu Cepat",
               style: TextStyle(
-                fontSize: 24, 
-                fontWeight: FontWeight.bold, 
-                color: Colors.blue[900],
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.blue[600],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                "Role: $role",
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+            
+            const SizedBox(height: 15),
+            
+            // Grid menu
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              childAspectRatio: 1.5,
+              children: [
+                _buildMenuCard(
+                  icon: Icons.task,
+                  title: "Tugas",
+                  color: Colors.blue,
+                ),
+                _buildMenuCard(
+                  icon: Icons.message,
+                  title: "Pesan",
+                  color: Colors.green,
+                ),
+                _buildMenuCard(
+                  icon: Icons.notifications,
+                  title: "Notifikasi",
+                  color: Colors.orange,
+                ),
+                _buildMenuCard(
+                  icon: Icons.settings,
+                  title: "Pengaturan",
+                  color: Colors.purple,
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 25),
+            
+            // Logout button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => Navigator.popAndPushNamed(context, '/login'),
+                icon: const Icon(Icons.logout),
+                label: const Text("Keluar"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
           ],
         ),
       ),
-      // Pastikan BottomNav Anda juga mendukung tema warna biru jika diperlukan
       bottomNavigationBar: BottomNav(0),
+    );
+  }
+
+  Widget _buildMenuCard({
+    required IconData icon,
+    required String title,
+    required Color color,
+  }) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

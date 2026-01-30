@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'views/RegisterUserView.dart';
 import 'views/loginViews.dart';
-
+import 'views/dashboard.dart';
+import 'views/DataProduk.dart';
+import 'views/transactionView.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +17,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const RegisterUserView(),
-        '/login': (context) => const LoginView()
+        '/login': (context) => const LoginView(),
+        '/dashboard': (context) => DashboardView(),
+        '/product': (context) => Dataproduk(),
+        '/transaction': (context) => TransactionView(),
+
       }, 
     );
   }

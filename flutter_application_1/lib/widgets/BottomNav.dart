@@ -34,13 +34,13 @@ class _BottomNavState extends State<BottomNav> {
       if (index == 0) {
         Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (index == 1) {
-        Navigator.pushReplacementNamed(context, '/movie');
+        Navigator.pushReplacementNamed(context, '/product');
       }
-    } else if (role == "user ") {
+    } else if (role == "user") {
       if (index == 0) {
         Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (index == 1) {
-        Navigator.pushReplacementNamed(context, '/pesan');
+        Navigator.pushReplacementNamed(context, '/product');
       }
     }
   }
@@ -57,7 +57,7 @@ class _BottomNavState extends State<BottomNav> {
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.file_copy),
-                label: 'Movie',
+                label: 'Product',
               ),
             ],
           )
@@ -71,7 +71,7 @@ class _BottomNavState extends State<BottomNav> {
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.card_giftcard),
-                label: 'Pesan',
+                label: 'Product',
               ),
             ],
           )

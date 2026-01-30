@@ -1,97 +1,78 @@
 import 'dart:convert';
-import '../models/response_data_map.dart';
+import 'package:flutter_application_1/models/response_data_map.dart';
 import 'url.dart' as url;
 import 'package:http/http.dart' as http;
 import '../models/user_login.dart';
+import '../models/response_data_map.dart';
 
 class UserService {
   Future<ResponseDataMap> registerUser(data) async {
-    try {
-      var uri = Uri.parse(url.baseUrl + "/auth/register");
-      var response = await http.post(uri, body: data).timeout(
-        const Duration(seconds: 15),
-        onTimeout: () => throw Exception('Koneksi timeout'),
-      );
-      
-      if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
-        if (responseData["status"] == true) {
-          return ResponseDataMap(
-            status: true,
-            message: "Registrasi berhasil",
-            data: responseData,
-          );
-        } else {
-          var message = '';
-          if (responseData["message"] is Map) {
-            for (String key in responseData["message"].keys) {
-              message += responseData["message"][key][0].toString() + '\n';
-            }
-          } else {
-            message = responseData["message"].toString();
-          }
-          return ResponseDataMap(
-            status: false,
-            message: message,
-          );
-        }
-      } else {
-        return ResponseDataMap(
-          status: false,
-          message: "Registrasi gagal - Error ${response.statusCode}",
+    var uri = Uri.parse(url.baseUrl + "/auth/register");
+    var register = await http.post(uri, body: data);
+    if (register.statusCode == 200) {
+      var data = json.decode(register.body);
+      if (data["status"] == true) {
+        ResponseDataMap response = ResponseDataMap(
+          status: true,
+          message: "Sukses menambah user",
+          data: data,
         );
+        return response;
+      } else {
+        var message = '';
+        for (String key in data["message"].keys) {
+          message += data["message"][key][0].toString() + '\n';
+        }
+        ResponseDataMap response = ResponseDataMap(
+          status: false,
+          message: message,
+        );
+        return response;
       }
-    } catch (e) {
-      return ResponseDataMap(
+    } else {
+      ResponseDataMap response = ResponseDataMap(
         status: false,
-        message: "Error: ${e.toString()}",
+        message: "gagal menambah user dengan code error ${register.statusCode}",
       );
+      return response;
     }
   }
+  Future loginUser(data) async {
+  var uri = Uri.parse(url.baseUrl + "/auth/login");
+  var register = await http.post(uri, body: data);
+  if (register.statusCode == 200) {
+    var data = json.decode(register.body);
+    if (data["status"] == true) {
+      UserLogin userLogin = UserLogin(
+        status: data["status"],
+        token: data["token"],
+        message: data["message"],
+        id: data["user"]["id"],
+        nama_user: data["user"]["nama_user"],
+        email: data["user"]["email"],
+        role: data["user"]["role"],
+      );
+      await userLogin.prefs();
+      ResponseDataMap response = ResponseDataMap(
+        status: true, 
+        message: "Sukses login user",
+        data: data,
+      );
+      return response;
+    } else {
+      ResponseDataMap response = ResponseDataMap(
+        status: false,
+        message: 'Email dan password salah',
+      );
+      return response;
+    }
+  } else {
+    ResponseDataMap response = ResponseDataMap(
+      status: false,
+      message: "gagal login user dengan code error ${register.statusCode}",
+    );
+    return response;
+  }
+}
 
-  Future<ResponseDataMap> loginUser(data) async {
-    try {
-      var uri = Uri.parse(url.baseUrl + "/auth/login");
-      var response = await http.post(uri, body: data).timeout(
-        const Duration(seconds: 15),
-        onTimeout: () => throw Exception('Koneksi timeout'),
-      );
-      
-      if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
-        if (responseData["status"] == true) {
-          UserLogin userLogin = UserLogin(
-            status: responseData["status"],
-            token: responseData["authorisation"]["token"],
-            message: responseData["message"],
-            id: responseData["user"]["id"],
-            nama_user: responseData["user"]["name"],
-            email: responseData["user"]["email"],
-            role: responseData["user"]["role"],
-          );
-          await userLogin.prefs();
-          return ResponseDataMap(
-            status: true,
-            message: "Login berhasil",
-            data: responseData,
-          );
-        } else {
-          return ResponseDataMap(
-            status: false,
-            message: "Email atau password salah",
-          );
-        }
-      } else {
-        return ResponseDataMap(
-          status: false,
-          message: "Login gagal - Error ${response.statusCode}",
-        );
-      }
-    } catch (e) {
-      return ResponseDataMap(
-        status: false,
-        message: "Error: ${e.toString()}",
-      );
-    }
-  }
 }
