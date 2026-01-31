@@ -9,19 +9,113 @@ class TransactionView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Riwayat Pembelian Buku"),
-        elevation: 1,
-        backgroundColor: Colors.blue[800],
-        foregroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF1E3A8A), // Biru gelap
+                Color(0xFF3B82F6), // Biru terang
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+        ),
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.filter_list, size: 22),
+            ),
             onPressed: () {
               // Filter transaksi
             },
           ),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.search, size: 22),
+            ),
+            onPressed: () {
+              // Search transaksi
+            },
+          ),
+          const SizedBox(width: 12),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "5 Transaksi",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      "Total: Rp 890.200",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today, size: 16),
+                      const SizedBox(width: 6),
+                      Text(
+                        "Jan 2024",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -113,19 +207,35 @@ class TransactionView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[100]!),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Icon(Icons.filter_alt_outlined, color: Colors.blue[700], size: 20),
-              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.filter_alt_outlined, color: Colors.blue[700], size: 20),
+              ),
+              const SizedBox(width: 12),
               const Text(
-                "Filter:",
-                style: TextStyle(fontWeight: FontWeight.w500),
+                "Filter Transaksi:",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
               ),
             ],
           ),
@@ -136,16 +246,25 @@ class TransactionView extends StatelessWidget {
                 label: const Text("Semua"),
                 backgroundColor: Colors.blue[50],
                 side: BorderSide(color: Colors.blue[300]!),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
               Chip(
                 label: const Text("Selesai"),
                 backgroundColor: Colors.green[50],
                 side: BorderSide(color: Colors.green[300]!),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
               Chip(
                 label: const Text("Diproses"),
                 backgroundColor: Colors.orange[50],
                 side: BorderSide(color: Colors.orange[300]!),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ],
           ),
@@ -154,6 +273,7 @@ class TransactionView extends StatelessWidget {
     );
   }
 
+  // ... (fungsi-fungsi lainnya tetap sama seperti sebelumnya)
   Widget _buildBookTransaction({
     required String bookTitle,
     required String author,

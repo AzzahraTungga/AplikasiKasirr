@@ -40,7 +40,7 @@ class _BottomNavState extends State<BottomNav> {
       if (index == 0) {
         Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (index == 1) {
-        Navigator.pushReplacementNamed(context, '/product');
+        Navigator.pushReplacementNamed(context, '/transaksi');
       }
     }
   }
@@ -71,7 +71,7 @@ class _BottomNavState extends State<BottomNav> {
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.card_giftcard),
-                label: 'Product',
+                label: 'transaksi',
               ),
             ],
           )
