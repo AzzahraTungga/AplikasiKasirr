@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
               child: Column(
                 children: [
                   const Text(
-                    "HI NIGHT READERS",
+                    "HI FARIZCHA",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 38,

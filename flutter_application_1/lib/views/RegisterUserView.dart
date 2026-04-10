@@ -37,7 +37,7 @@ class _register_user_view extends State<RegisterUserView> {
               child: Column(
                 children: [
                   const Text(
-                    "HI NIGHT READERS",
+                    "Hi Farizcha Amalia",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 38,

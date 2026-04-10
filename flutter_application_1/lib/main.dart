@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/views/TokoViews.dart';
 import 'views/RegisterUserView.dart';
 import 'views/loginViews.dart';
 import 'views/dashboard.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const RegisterUserView(),
         '/login': (context) => const LoginView(),
         '/dashboard': (context) => DashboardView(),
-        '/product': (context) => Dataproduk(),
+        '/product': (context) => TokoView(),
         '/transaksi': (context) => TransactionView(),
 
       }, 
